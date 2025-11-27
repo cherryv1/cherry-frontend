@@ -2,23 +2,30 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Cherry • Interfaz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="Cherry AI - Tu asistente inteligente y personalizable" />
+  <meta name="theme-color" content="#0a0e27" />
+  <title>Cherry • Tu Asistente AI</title>
 
-  <!-- tsparticles (particulas) -->
+  <!-- tsparticles (partículas animadas) -->
   <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.6.0/tsparticles.bundle.min.js" defer></script>
 
-  <!-- Fuente -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+  <!-- Estilos -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Fondo de partículas animadas -->
   <div id="particles" aria-hidden="true"></div>
 
+  <!-- Aplicación principal -->
   <div id="app" class="dark">
-    <aside class="sidebar">
+    <!-- Sidebar con navegación y controles -->
+    <aside class="sidebar" id="sidebar">
       <div class="sidebar-top">
+        <!-- Marca y avatar de Cherry -->
         <div class="brand">
           <div class="avatar-shell" aria-hidden="true">
             <svg viewBox="0 0 120 120" width="56" height="56" aria-hidden="true">
@@ -31,22 +38,27 @@
               <circle cx="60" cy="60" r="56" fill="url(#g1)"/>
               <g fill="#fff" transform="translate(24,30)">
                 <circle cx="36" cy="30" r="16"/>
-                <rect x="12" y="54" width="48" height="8" rx="4" opacity="0.06"/>
+                <rect x="12" y="54" width="48" height="8" rx="4" opacity="0.8"/>
+                <circle cx="20" cy="48" r="3"/>
+                <circle cx="52" cy="48" r="3"/>
               </g>
             </svg>
           </div>
           <div class="brand-text">
             <div class="brand-name">Cherry</div>
-            <div class="brand-sub">Tu asistente</div>
+            <div class="brand-sub">Tu asistente AI</div>
           </div>
         </div>
 
+        <!-- Controles principales -->
         <div class="controls">
-          <button id="newChatBtn" class="btn" title="Nuevo chat">+ Nuevo</button>
+          <button id="newChatBtn" class="btn" title="Iniciar nuevo chat" aria-label="Nuevo chat">
+            + Nuevo Chat
+          </button>
 
-          <label class="mode-label" for="modeSelect">Modo</label>
-          <select id="modeSelect" aria-label="Modo de Cherry">
-            <option value="normal">Normal</option>
+          <label class="mode-label" for="modeSelect">Modo de Cherry</label>
+          <select id="modeSelect" aria-label="Selecciona el modo de Cherry">
+            <option value="normal">🌸 Normal</option>
             <option value="explain">🎓 Explicadora</option>
             <option value="coder">💻 Programadora</option>
             <option value="flirty">💋 Coqueta</option>
@@ -55,16 +67,20 @@
           </select>
         </div>
 
+        <!-- Lista de chats anteriores -->
         <div id="chatsList" class="chatsList" role="list" aria-label="Chats anteriores"></div>
       </div>
 
+      <!-- Controles inferiores del sidebar -->
       <div class="sidebar-bottom">
-        <button id="settingsBtn" class="btn-ghost" title="Ajustes">⚙️ Ajustes</button>
-        <button id="shareBtn" class="btn-ghost" title="Compartir">🔗 Compartir</button>
+        <button id="settingsBtn" class="btn-ghost" title="Ajustes" aria-label="Abrir ajustes">⚙️ Ajustes</button>
+        <button id="shareBtn" class="btn-ghost" title="Compartir chat" aria-label="Compartir chat">🔗 Compartir</button>
       </div>
     </aside>
 
+    <!-- Área principal de chat -->
     <main class="main">
+      <!-- Encabezado con título y controles -->
       <header class="main-header">
         <div class="header-left">
           <h1 id="chatTitle">Cherry</h1>
@@ -72,36 +88,51 @@
         </div>
 
         <div class="header-right">
+          <!-- Indicador de carga (ondas) -->
           <div id="loaderWaves" class="loader-waves" hidden aria-hidden="true"></div>
-          <button id="themeBtn" class="btn-ghost" title="Cambiar tema">🌙</button>
+          <!-- Botón de tema -->
+          <button id="themeBtn" class="btn-ghost" title="Cambiar tema" aria-label="Cambiar tema">🌙</button>
+          <!-- Botón de menú (móvil) -->
+          <button id="menuBtn" class="btn-ghost" title="Menú" aria-label="Abrir menú" style="display: none;">☰</button>
         </div>
       </header>
 
+      <!-- Área de chat -->
       <section class="chat-area">
-        <div id="messages" class="messages" role="log" aria-live="polite"></div>
+        <!-- Contenedor de mensajes -->
+        <div id="messages" class="messages" role="log" aria-live="polite" aria-label="Historial de chat"></div>
 
+        <!-- Área de composición de mensajes -->
         <div class="composer-area">
           <div class="composer-row">
-            <button id="micBtn" class="btn-ghost" title="Hablar">🎤</button>
-            <input id="inputBox" placeholder="Escribe a Cherry..." autocomplete="off" />
-            <input id="fileInput" type="file" accept="image/*" style="display:none" />
-            <button id="imgBtn" class="btn-ghost" title="Adjuntar imagen">🖼️</button>
-            <button id="sendBtn" class="btn-primary">Enviar</button>
+            <button id="micBtn" class="btn-ghost" title="Hablar a Cherry" aria-label="Micrófono">🎤</button>
+            <input 
+              id="inputBox" 
+              type="text"
+              placeholder="Escribe a Cherry..." 
+              autocomplete="off"
+              aria-label="Campo de entrada de mensaje"
+            />
+            <input id="fileInput" type="file" accept="image/*" style="display:none" aria-hidden="true" />
+            <button id="imgBtn" class="btn-ghost" title="Adjuntar imagen" aria-label="Adjuntar imagen">🖼️</button>
+            <button id="sendBtn" class="btn-primary" title="Enviar mensaje" aria-label="Enviar">Enviar</button>
           </div>
 
+          <!-- Atajos de comandos -->
           <div class="shortcuts">
-            <small>Comandos: /buscar /resumir /email /nota /traduce</small>
+            <small>💡 Comandos: <code>/buscar</code> <code>/resumir</code> <code>/email</code> <code>/nota</code> <code>/traduce</code></small>
           </div>
         </div>
       </section>
     </main>
   </div>
 
-  <audio id="sendSound" preload="auto">
-    <!-- pequeño WAV en blanco (silencio) para compatibilidad; reemplaza si quieres -->
-    <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA=" type="audio/wav">
+  <!-- Audio para sonido de envío -->
+  <audio id="sendSound" preload="auto" aria-hidden="true">
+    <source src="data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAAAAA==" type="audio/wav">
   </audio>
 
+  <!-- Template para mensajes -->
   <template id="msgTpl">
     <div class="msg">
       <div class="meta"></div>
@@ -110,6 +141,7 @@
     </div>
   </template>
 
+  <!-- Script principal -->
   <script src="script.js" defer></script>
 </body>
-  </html>
+</html>
