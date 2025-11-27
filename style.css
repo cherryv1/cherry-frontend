@@ -15,6 +15,68 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
+#app.light {
+  --bg: #f0f4f8;
+  --bg-secondary: #ffffff;
+  --panel: #ffffff;
+  --card: #eef2f6;
+  --border: rgba(0, 0, 0, 0.1);
+  --muted: #6b7280;
+  --text: #1f2937;
+  --accent: #ff6b9a;
+  --accent-2: #d83a7a;
+  --accent-light: #ff8bb5;
+  --glass: rgba(0, 0, 0, 0.04);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+#app.light .brand-name, #app.light .main-header h1 {
+  color: var(--text);
+}
+
+#app.light .chatItem.active {
+  background: linear-gradient(90deg, rgba(255, 107, 154, 0.1), rgba(216, 58, 122, 0.08));
+  color: var(--accent-2);
+  border-color: var(--accent);
+}
+
+#app.light .msg.assistant {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+#app.light .msg.user {
+  color: #fff;
+}
+
+#app.light .btn-ghost {
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+#app.light .btn-ghost:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+#app.light #modeSelect, #app.light #inputBox {
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+#app.light #modeSelect:hover, #app.light #inputBox:hover {
+  background: var(--card);
+  border-color: var(--accent);
+}
+
+#app.light #inputBox:focus {
+  box-shadow: 0 0 0 3px rgba(255, 107, 154, 0.1);
+}
+
 * {
   box-sizing: border-box;
 }
