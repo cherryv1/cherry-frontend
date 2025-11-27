@@ -1,6 +1,8 @@
-/* CONFIG — edita antes de usar */
-const BACKEND_URL = "https://cherryv1.onrender.com/api/ai"; // tu endpoint POST
-const MASTER_KEY = "REEMPLAZA_POR_TU_MASTER_KEY"; // tu master key
+// CONFIG — no guardar claves en el repo. Si quieres usar una master key en desarrollo,
+// define window.CHERRY_CONFIG = { BACKEND_URL: "...", MASTER_KEY: "..." } desde el entorno
+// (ej. en la consola del navegador) o configura el backend para no necesitar master key.
+const BACKEND_URL = (window.CHERRY_CONFIG && window.CHERRY_CONFIG.BACKEND_URL) || "https://cherryv1.onrender.com/api/ai";
+const MASTER_KEY = (window.CHERRY_CONFIG && window.CHERRY_CONFIG.MASTER_KEY) || "";
 
 /* UI refs */
 const messagesEl = document.getElementById("messages");
@@ -159,6 +161,13 @@ function getSystemPrompt(){
 
 /* backend call */
 async function callBackend(userText, imageData = null){
+  // Validación de configuración antes de la llamada
+  if (MASTER_KEY === "" && BACKEND_URL === "https://cherryv1.onrender.com/api/ai") {
+    pushMessage("assistant", "ERROR: Falta configurar la clave maestra (MASTER_KEY) o la URL del backend. Define window.CHERRY_CONFIG = { BACKEND_URL: '...', MASTER_KEY: '...' } en la consola o configura tu backend para no requerir clave.");
+    hideLoader();
+    saveChats();
+    return;
+  }
   const command = parseCommand(userText);
   let payloadText = userText;
   if(command){
