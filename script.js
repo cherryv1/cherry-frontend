@@ -181,13 +181,7 @@ function getSystemPrompt(){
 
 /* backend call */
 async function callBackend(userText, imageData = null){
-  // Validación de configuración antes de la llamada
-  if (MASTER_KEY === "" && BACKEND_URL === "https://cherryv1.onrender.com/api/ai") {
-    pushMessage("assistant", "ERROR: Falta configurar la clave maestra (MASTER_KEY) o la URL del backend. Define window.CHERRY_CONFIG = { BACKEND_URL: '...', MASTER_KEY: '...' } en la consola o configura tu backend para no requerir clave.");
-    hideLoader();
-    saveChats();
-    return;
-  }
+
   const command = parseCommand(userText);
   let payloadText = userText;
   if(command){
