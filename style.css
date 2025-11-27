@@ -350,6 +350,7 @@ html, body {
 .messages {
   flex: 1;
   padding: 24px;
+  padding-bottom: 120px; /* Espacio extra para el composer fijo */
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
@@ -441,10 +442,15 @@ html, body {
 
 /* ===== COMPOSER ===== */
 .composer-area {
+  position: fixed; /* Fijar el composer */
+  bottom: 0;
+  left: 0;
+  right: 0;
   padding: 16px 24px 24px;
   border-top: 1px solid var(--border);
   background: linear-gradient(180deg, transparent 0%, rgba(19, 26, 58, 0.2) 100%);
   backdrop-filter: blur(8px);
+  z-index: 10; /* Asegurar que esté por encima de todo */
 }
 
 .composer-row {
@@ -602,6 +608,21 @@ html, body {
   }
 }
 
+@media (max-width: 768px) {
+  .composer-area {
+    padding: 12px 16px 16px;
+  }
+
+  #inputBox {
+    padding: 12px 16px; /* Hacer el input más grande en móvil */
+    font-size: 16px;
+  }
+
+  .messages {
+    padding-bottom: 100px; /* Ajuste para el composer fijo */
+  }
+}
+
 @media (max-width: 480px) {
   :root {
     font-size: 14px;
@@ -621,6 +642,7 @@ html, body {
 
   .messages {
     padding: 12px;
+    padding-bottom: 100px; /* Ajuste para el composer fijo */
     gap: 10px;
   }
 
@@ -639,8 +661,8 @@ html, body {
   }
 
   #inputBox {
-    padding: 8px 10px;
-    font-size: 13px;
+    padding: 10px 12px;
+    font-size: 14px;
   }
 
   .btn-ghost {
