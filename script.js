@@ -15,6 +15,7 @@ const newChatBtn = document.getElementById("newChatBtn");
 const chatsList = document.getElementById("chatsList");
 const modeSelect = document.getElementById("modeSelect");
 const themeBtn = document.getElementById("themeBtn");
+const ttsBtn = document.getElementById("ttsBtn"); // Nuevo botón para TTS
 const chatSubtitle = document.getElementById("chatSubtitle");
 const loaderWaves = document.getElementById("loaderWaves");
 const sendSound = document.getElementById("sendSound");
@@ -67,6 +68,8 @@ function pushMessage(role, text, image){
   const m = { role, text, image: image||null, t: Date.now() };
   activeChat.messages.push(m);
   saveChats(); renderMessages(); renderChats();
+  // Asegurar el scroll al final después de añadir el mensaje
+  messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
 /* new chat */
@@ -79,6 +82,13 @@ newChatBtn.onclick = ()=>{
 themeBtn.onclick = () => {
   document.getElementById("app").classList.toggle("dark");
   document.getElementById("app").classList.toggle("light");
+}
+
+// Lógica para el nuevo botón de TTS
+ttsBtn.onclick = () => {
+  ttsEnabled = !ttsEnabled;
+  ttsBtn.textContent = ttsEnabled ? "🔊" : "🔇";
+  ttsBtn.title = ttsEnabled ? "Audio Activado" : "Audio Desactivado";
 }
 
 /* mic */
@@ -153,8 +163,10 @@ function parseCommand(text){
 }
 
 /* tts */
+let ttsEnabled = true; // Estado inicial del TTS
+
 function speakText(t){
-  if(!("speechSynthesis" in window)) return;
+  if(!ttsEnabled || !("speechSynthesis" in window)) return;
   const u = new SpeechSynthesisUtterance(t);
   u.lang = 'es-ES';
   u.rate = 0.95;
@@ -176,7 +188,7 @@ function getSystemPrompt(){
   if(mode==="flirty") return "Eres Cherry, coqueta, juguetona pero respetuosa. Respuestas cortas, encantadoras y con emojis. Sé amigable.";
   if(mode==="tutor") return "Eres Cherry, tutora para estudiantes. Explica con claridad, usa ejemplos, cita fuentes si es posible. Sé paciente.";
   if(mode==="pro") return "Eres Cherry, profesional experta en UX, marketing, diseño y negocios. Respuestas formales, concretas y estratégicas.";
-  return "Eres Cherry, un asistente útil, amable, directo y siempre dispuesta a ayudar.";
+  return "Eres Cherry, un asistente útil, amable, directo y siempre dispuesta a ayudar. Tu respuesta debe ser natural y seguir el flujo de la conversación. Si el usuario te pide responder solo con texto, hazlo. Si te pide responder con audio, usa la voz de forma natural. Evita repetir frases de bienvenida o cierre a menos que sea apropiado.";
 }
 
 /* backend call */
@@ -238,7 +250,14 @@ async function callBackend(userText, imageData = null){
     if(res.ok){
       const reply = data.reply || JSON.stringify(data);
       pushMessage("assistant", reply);
-      speakText(reply);
+      
+      // Lógica para el audio: si el usuario pide audio o si el TTS está activado y no ha pedido solo texto
+      const userRequestAudio = userText.toLowerCase().includes("responde con audio");
+      const userRequestTextOnly = userText.toLowerCase().includes("solo responde con texto");
+
+      if (userRequestAudio || (ttsEnabled && !userRequestTextOnly)) {
+        speakText(reply);
+      }
     } else {
       pushMessage("assistant", `Error: ${data.error || 'Respuesta inválida'}`);
     }

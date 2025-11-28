@@ -14,7 +14,7 @@
   <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.6.0/tsparticles.bundle.min.js" defer></script>
 
   <!-- Fuentes -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
 
   <!-- Estilos -->
   <link rel="stylesheet" href="style.css" />
@@ -31,7 +31,7 @@
         <!-- Marca y avatar de Cherry -->
         <div class="brand">
           <div class="avatar-shell" aria-hidden="true">
-            <svg viewBox="0 0 120 120" width="56" height="56" aria-hidden="true">
+            <svg viewBox="0 0 120 120" width="56" height="56" aria-hidden="true" style="display: none;">
               <defs>
                 <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
                   <stop offset="0" stop-color="#ff7aa2"/>
@@ -93,6 +93,8 @@
         <div class="header-right">
           <!-- Indicador de carga (ondas) -->
           <div id="loaderWaves" class="loader-waves" hidden aria-hidden="true"></div>
+          <!-- Botón de TTS -->
+          <button id="ttsBtn" class="btn-ghost" title="Activar/Desactivar Audio" aria-label="Activar/Desactivar Audio">🔊</button>
           <!-- Botón de tema -->
           <button id="themeBtn" class="btn-ghost" title="Cambiar tema" aria-label="Cambiar tema">🌙</button>
           <!-- Botón de menú (móvil) -->

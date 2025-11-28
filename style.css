@@ -1,4 +1,25 @@
+/* ====================================================================
+   FASE 4: MEJORAS DE DISEÑO VISUAL (Fondo, Partículas, Fuente, Tattoo)
+   ==================================================================== */
+
+/* 1. Nuevos Colores y Fondo Difuminado */
 :root {
+  /* Colores base para el nuevo esquema */
+  --bg-dark: #000000; /* Negro puro */
+  --bg-blue: #000033; /* Azul oscuro */
+  --bg-yellow: #333300; /* Amarillo oscuro/oliva */
+  --accent: #ff6b9a; /* Rosa original para mantener identidad */
+  --accent-2: #d83a7a;
+  --text: #e8eaf6;
+  --muted: #8b92a9;
+  --border: rgba(255, 255, 255, 0.05);
+  --panel: rgba(19, 26, 58, 0.8); /* Mantener un panel semitransparente */
+  --card: rgba(26, 36, 73, 0.9); /* Fondo de burbuja de chat */
+  
+  /* Fuente elegante (usaremos una de Google Fonts) */
+  --font-elegant: 'Tangerine', cursive; /* Ejemplo de fuente elegante */
+  --font-main: 'Inter', sans-serif;
+
   --bg: #0a0e27;
   --bg-secondary: #0f1535;
   --panel: #131a3a;
@@ -12,7 +33,7 @@
   --glass: rgba(255, 255, 255, 0.04);
   --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: var(--font-main);
 }
 
 #app.light {
@@ -85,7 +106,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: var(--bg);
+  background: var(--bg-dark);
   color: var(--text);
   overflow: hidden;
 }
@@ -102,19 +123,23 @@ html, body {
   min-height: 100vh;
   display: flex;
   z-index: 1;
-  background: linear-gradient(135deg, var(--bg) 0%, var(--bg-secondary) 100%);
+  /* Difuminado Negro, Azul, Amarillo */
+  background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-blue) 50%, var(--bg-yellow) 100%);
+  background-attachment: fixed;
 }
 
 /* ===== SIDEBAR ===== */
 .sidebar {
   width: 320px;
-  background: linear-gradient(180deg, rgba(19, 26, 58, 0.8) 0%, rgba(10, 14, 39, 0.6) 100%);
+  /* Estilo "Tattoo" para el sidebar */
+  background: rgba(0, 0, 0, 0.6);
   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-right: 1px solid var(--border);
-  backdrop-filter: blur(10px);
+  border-right: 1px solid var(--accent-2);
+  backdrop-filter: blur(15px) brightness(0.8);
+  box-shadow: 0 0 15px rgba(255, 107, 154, 0.3);
   overflow-y: auto;
 }
 
@@ -134,10 +159,39 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 24px rgba(255, 107, 154, 0.2);
-  overflow: hidden;
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  /* Reemplazado por el logo animado de neón */
+  position: relative;
+  overflow: visible;
+  background: none;
+  box-shadow: none;
   flex-shrink: 0;
+}
+
+/* Contenedor para el nuevo logo de esfera de neón */
+.avatar-shell::before, .avatar-shell::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 2px solid;
+    animation: neon-spin 4s linear infinite, color-change 8s infinite alternate;
+}
+
+.avatar-shell::before {
+    width: 50px;
+    height: 50px;
+    border-color: var(--accent);
+    animation-direction: normal; /* Gira en un sentido */
+}
+
+.avatar-shell::after {
+    width: 30px;
+    height: 30px;
+    border-color: #00ffff; /* Color secundario de neón */
+    animation-direction: reverse; /* Gira en sentido opuesto */
+    box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
 }
 
 .avatar-shell svg {
@@ -149,10 +203,15 @@ html, body {
 }
 
 .brand-name {
+  /* Estilo Tattoo y Fuente Elegante */
+  font-family: var(--font-elegant);
   font-weight: 700;
   color: #fff;
-  font-size: 20px;
+  font-size: 36px; /* Aumentar tamaño para el logo */
   letter-spacing: -0.5px;
+  text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent-2); /* Efecto neón */
+  z-index: 10;
+  position: relative;
 }
 
 .brand-sub {
@@ -279,9 +338,11 @@ html, body {
   justify-content: space-between;
   align-items: center;
   padding: 16px 24px;
-  border-bottom: 1px solid var(--border);
-  background: linear-gradient(180deg, rgba(19, 26, 58, 0.4) 0%, transparent 100%);
-  backdrop-filter: blur(8px);
+  /* Estilo "Tattoo" para el header */
+  border-bottom: 1px solid var(--accent-2);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(15px) brightness(0.8);
+  box-shadow: 0 0 15px rgba(255, 107, 154, 0.3);
 }
 
 .header-left h1 {
@@ -350,7 +411,7 @@ html, body {
 .messages {
   flex: 1;
   padding: 24px;
-  padding-bottom: 120px; /* Espacio extra para el composer fijo */
+  padding-bottom: 140px; /* Espacio extra para el composer fijo (Ajuste móvil) */
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
@@ -418,10 +479,11 @@ html, body {
 
 .msg.assistant {
   margin-right: auto;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
-  border: 1px solid var(--border);
+  /* Estilo "Tattoo" para burbuja de asistente */
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid var(--accent);
   color: var(--text);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1), 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .msg .bubble {
@@ -447,16 +509,18 @@ html, body {
   left: 0;
   right: 0;
   padding: 16px 24px 24px;
-  border-top: 1px solid var(--border);
-  background: linear-gradient(180deg, transparent 0%, rgba(19, 26, 58, 0.2) 100%);
-  backdrop-filter: blur(8px);
+  /* Estilo "Tattoo" para el composer */
+  border-top: 1px solid var(--accent-2);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(15px) brightness(0.8);
+  box-shadow: 0 0 15px rgba(255, 107, 154, 0.3);
   z-index: 10; /* Asegurar que esté por encima de todo */
 }
 
 .composer-row {
   display: flex;
   gap: 10px;
-  align-items: flex-end;
+  align-items: center; /* Centrar verticalmente para móvil */
 }
 
 #inputBox {
@@ -528,6 +592,26 @@ html, body {
   flex-shrink: 0;
 }
 
+/* Dientes de León (Simulación con CSS) */
+.main {
+    position: relative;
+}
+
+.main::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    opacity: 0.05; /* Muy sutil */
+    /* Simulación de patrón de dientes de león (ejemplo con patrón de puntos) */
+    background-image: radial-gradient(var(--accent-2) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+}
+
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(255, 107, 154, 0.3);
@@ -582,6 +666,7 @@ html, body {
 
   .messages {
     padding: 16px;
+    padding-bottom: 140px; /* Ajuste para el composer fijo */
   }
 
   .msg {
@@ -594,37 +679,48 @@ html, body {
 
   .composer-row {
     gap: 8px;
+    align-items: center; /* Solución para el botón cortado */
   }
 
   #inputBox {
     padding: 10px 12px;
     font-size: 14px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0; /* Solución para el botón cortado */
   }
 
   .btn-ghost,
   .btn-primary {
     padding: 8px 10px;
     font-size: 14px;
-  }
-}
-
-@media (max-width: 768px) {
-  .composer-area {
-    padding: 12px 16px 16px;
-  }
-
-  #inputBox {
-    padding: 12px 16px; /* Hacer el input más grande en móvil */
-    font-size: 16px;
-  }
-
-  .messages {
-    padding-bottom: 100px; /* Ajuste para el composer fijo */
+    flex-shrink: 0;
   }
 }
 
 @media (max-width: 480px) {
-  :root {
+  /* ====================================================================
+   FASE 4: MEJORAS DE DISEÑO VISUAL (Fondo, Partículas, Fuente, Tattoo)
+   ==================================================================== */
+
+/* 1. Nuevos Colores y Fondo Difuminado */
+:root {
+  /* Colores base para el nuevo esquema */
+  --bg-dark: #000000; /* Negro puro */
+  --bg-blue: #000033; /* Azul oscuro */
+  --bg-yellow: #333300; /* Amarillo oscuro/oliva */
+  --accent: #ff6b9a; /* Rosa original para mantener identidad */
+  --accent-2: #d83a7a;
+  --text: #e8eaf6;
+  --muted: #8b92a9;
+  --border: rgba(255, 255, 255, 0.05);
+  --panel: rgba(19, 26, 58, 0.8); /* Mantener un panel semitransparente */
+  --card: rgba(26, 36, 73, 0.9); /* Fondo de burbuja de chat */
+  
+  /* Fuente elegante (usaremos una de Google Fonts) */
+  --font-elegant: 'Tangerine', cursive; /* Ejemplo de fuente elegante */
+  --font-main: 'Inter', sans-serif;
+
     font-size: 14px;
   }
 
@@ -707,4 +803,17 @@ html, body {
   mix-blend-mode: screen;
   opacity: 0.7;
   animation: float 10s infinite ease-in-out;
+}
+
+/* Animaciones para el logo de neón */
+@keyframes neon-spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes color-change {
+    0% { border-color: var(--accent); box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent); }
+    33% { border-color: #00ffff; box-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; }
+    66% { border-color: #ffff00; box-shadow: 0 0 5px #ffff00, 0 0 10px #ffff00; }
+    100% { border-color: var(--accent); box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent); }
 }
