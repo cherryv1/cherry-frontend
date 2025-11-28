@@ -1,4 +1,4 @@
 window.CHERRY_CONFIG = {
-  BACKEND_URL: "https://jarvisito-backend-render.onrender.com",
+  BACKEND_URL: "https://cherryv1.onrender.com/cherry",
   MASTER_KEY: "Cherry_master_097272"
 };
