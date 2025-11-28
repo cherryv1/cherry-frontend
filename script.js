@@ -1,7 +1,7 @@
 // CONFIG — no guardar claves en el repo. Si quieres usar una master key en desarrollo,
 // define window.CHERRY_CONFIG = { BACKEND_URL: "...", MASTER_KEY: "..." } desde el entorno
 // (ej. en la consola del navegador) o configura el backend para no necesitar master key.
-const BACKEND_URL = (window.CHERRY_CONFIG && window.CHERRY_CONFIG.BACKEND_URL) || "https://cherryv1.onrender.com/api/ai";
+const BACKEND_URL = (window.CHERRY_CONFIG && window.CHERRY_CONFIG.BACKEND_URL) || "https://cherryv1.onrender.com/cherry";
 const MASTER_KEY = (window.CHERRY_CONFIG && window.CHERRY_CONFIG.MASTER_KEY) || "";
 
 /* UI refs */
