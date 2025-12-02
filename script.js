@@ -246,6 +246,7 @@ async function callBackend(userText, imageData = null){
 
     const data = await res.json();
     activeChat.messages = activeChat.messages.filter(m => m.text !== "⏳ Cherry está escribiendo...");
+    renderMessages(); // Forzar re-render después de eliminar el placeholder
 
     if(res.ok){
       const reply = data.reply || JSON.stringify(data);
@@ -263,6 +264,7 @@ async function callBackend(userText, imageData = null){
     }
   }catch(err){
     activeChat.messages = activeChat.messages.filter(m => m.text !== "⏳ Cherry está escribiendo...");
+    renderMessages(); // Forzar re-render después de eliminar el placeholder
     pushMessage("assistant", `Error de conexión: ${err.message}`);
   }finally{
     hideLoader();
