@@ -409,7 +409,8 @@ html, body {
 }
 
 .messages {
-  flex: 1;
+  flex: 1; /* Mantener flex: 1 para ocupar el espacio restante */
+  height: 100%; /* Asegurar que el contenedor ocupe el 100% del espacio disponible */
   padding: 24px;
   padding-bottom: 140px; /* Espacio extra para el composer fijo (Ajuste móvil) */
   overflow-y: auto;
