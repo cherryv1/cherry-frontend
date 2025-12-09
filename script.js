@@ -37,8 +37,47 @@ function renderChats(){
   chats.forEach(c=>{
     const el = document.createElement("div");
     el.className = "chatItem" + (c.id===activeChat.id ? " active":"");
-    el.innerText = c.title;
-    el.onclick = ()=>{ activeChat = c; renderChats(); renderMessages(); }
+    el.style.display = "flex";
+    el.style.justifyContent = "space-between";
+    el.style.alignItems = "center";
+    
+    const titleSpan = document.createElement("span");
+    titleSpan.innerText = c.title;
+    titleSpan.style.flex = "1";
+    titleSpan.onclick = ()=>{ activeChat = c; renderChats(); renderMessages(); }
+    
+    const deleteBtn = document.createElement("button");
+    deleteBtn.innerHTML = "🗑️";
+    deleteBtn.className = "delete-chat-btn";
+    deleteBtn.style.background = "transparent";
+    deleteBtn.style.border = "none";
+    deleteBtn.style.color = "var(--muted)";
+    deleteBtn.style.cursor = "pointer";
+    deleteBtn.style.fontSize = "18px";
+    deleteBtn.style.padding = "4px 8px";
+    deleteBtn.style.borderRadius = "6px";
+    deleteBtn.style.transition = "all 0.2s ease";
+    deleteBtn.title = "Borrar chat";
+    deleteBtn.onmouseover = () => { deleteBtn.style.color = "#ff4444"; deleteBtn.style.background = "rgba(255, 68, 68, 0.1)"; };
+    deleteBtn.onmouseout = () => { deleteBtn.style.color = "var(--muted)"; deleteBtn.style.background = "transparent"; };
+    deleteBtn.onclick = (e)=>{
+      e.stopPropagation();
+      if(confirm(`¿Borrar "${c.title}"?`)){
+        chats = chats.filter(chat => chat.id !== c.id);
+        if(chats.length === 0){
+          chats = [{id: Date.now(), title: "Chat 1", messages: []}];
+        }
+        if(activeChat.id === c.id){
+          activeChat = chats[0];
+        }
+        saveChats();
+        renderChats();
+        renderMessages();
+      }
+    };
+    
+    el.appendChild(titleSpan);
+    el.appendChild(deleteBtn);
     chatsList.appendChild(el);
   });
 }
@@ -60,7 +99,16 @@ function renderMessages(){
     }
     messagesEl.appendChild(node);
   });
-  messagesEl.scrollTop = messagesEl.scrollHeight;
+  // Forzar scroll al final con múltiples intentos para móvil
+  setTimeout(() => {
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }, 0);
+  setTimeout(() => {
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }, 100);
+  setTimeout(() => {
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }, 300);
 }
 
 /* push message */
@@ -68,8 +116,16 @@ function pushMessage(role, text, image){
   const m = { role, text, image: image||null, t: Date.now() };
   activeChat.messages.push(m);
   saveChats(); renderMessages(); renderChats();
-  // Asegurar el scroll al final después de añadir el mensaje
-  messagesEl.scrollTop = messagesEl.scrollHeight;
+  // Asegurar el scroll al final después de añadir el mensaje con múltiples intentos
+  setTimeout(() => {
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }, 0);
+  setTimeout(() => {
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }, 100);
+  setTimeout(() => {
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }, 500);
 }
 
 /* new chat */
